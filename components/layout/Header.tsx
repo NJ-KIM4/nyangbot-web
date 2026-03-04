@@ -4,6 +4,10 @@
 import { useState } from 'react'
 import { usePathname } from 'next/navigation'
 import Link from 'next/link'
+import Image from 'next/image'
+
+// 봇 초대 URL
+const BOT_INVITE_URL = 'https://discord.com/oauth2/authorize?client_id=1475711017496608881&permissions=8&integration_type=0&scope=bot+applications.commands'
 
 // 랜딩 페이지 섹션 목차
 const SECTION_ITEMS = [
@@ -43,7 +47,7 @@ export default function Header() {
       <div className="max-w-6xl mx-auto px-4 h-16 flex items-center justify-between">
         {/* 로고 */}
         <Link href="/" className="flex items-center gap-2 group">
-          <img src="/header_icon.png" alt="" className="w-8 h-8 rounded-full object-cover" />
+          <Image src="/header_icon.png" alt="" width={32} height={32} className="w-8 h-8 rounded-full object-cover" />
           <span className="font-logo text-xl font-bold text-gradient-pink">
             냥봇
           </span>
@@ -80,7 +84,7 @@ export default function Header() {
           ))}
 
           <a
-            href="https://discord.com/oauth2/authorize?client_id=YOUR_BOT_ID&permissions=8&scope=bot%20applications.commands"
+            href={BOT_INVITE_URL}
             target="_blank"
             rel="noopener noreferrer"
             className="px-4 py-2 bg-brand-pink text-white rounded-full font-bold text-sm btn-bounce hover:bg-brand-pink/90 shadow-pink"
@@ -133,7 +137,7 @@ export default function Header() {
             </Link>
           ))}
           <a
-            href="https://discord.com/oauth2/authorize?client_id=YOUR_BOT_ID&permissions=8&scope=bot%20applications.commands"
+            href={BOT_INVITE_URL}
             target="_blank"
             rel="noopener noreferrer"
             className="block mt-2 text-center px-4 py-2 bg-brand-pink text-white rounded-full font-bold text-sm"

@@ -22,7 +22,7 @@ const SCREENSHOTS = [
   },
   {
     title: '낚시 시스템',
-    description: '31종 어종, 계절/시간대 영향',
+    description: '19종 어종, 계절/시간대 영향',
     image: '/screenshots/fishing.png',
     fallbackLines: [
       '🎣 낚시 결과',
@@ -52,7 +52,7 @@ const SCREENSHOTS = [
   },
   {
     title: '주식 투자',
-    description: '20종목 실시간 변동',
+    description: '4종목 실시간 변동',
     image: '/screenshots/stock.png',
     fallbackLines: [
       '📈 주식 시장',

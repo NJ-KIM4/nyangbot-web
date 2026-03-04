@@ -8,7 +8,7 @@ const FEATURES = [
     description: '알바, 광산, 낚시로 츄르를 벌고, 상점에서 아이템을 구매하세요. 부자 랭킹에 도전!',
     color: 'from-brand-pink to-brand-pink-light',
     shadowClass: 'hover:shadow-pink',
-    items: ['19종 알바', '31종 어종 낚시', '광산 채굴', '소매치기'],
+    items: ['16종 알바', '19종 어종 낚시', '광산 채굴', '소매치기'],
   },
   {
     icon: '🎮',
@@ -21,10 +21,10 @@ const FEATURES = [
   {
     icon: '📈',
     title: '투자 시스템',
-    description: '20종 주식, 4종 부동산, 어시장 시세로 재테크하세요. 광기의 장에서 대박을!',
+    description: '4종 주식, 4종 부동산, 어시장 시세로 재테크하세요. 광기의 장에서 대박을!',
     color: 'from-brand-lavender to-brand-lavender-light',
     shadowClass: 'hover:shadow-lavender',
-    items: ['20종 실시간 주식', '부동산 월세', '어시장 시세', '아이템 조합'],
+    items: ['4종 실시간 주식', '4종 부동산 월세', '어시장 시세', '아이템 조합'],
   },
   {
     icon: '🎴',

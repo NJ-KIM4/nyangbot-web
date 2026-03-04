@@ -4,6 +4,7 @@
 import { useState } from 'react'
 import { clientAuth, clientUser } from '@/lib/auth'
 import type { DiscordUser } from '@/lib/types'
+import Image from 'next/image'
 import ProfileTab from './tabs/ProfileTab'
 import InventoryTab from './tabs/InventoryTab'
 import CollectionTab from './tabs/CollectionTab'
@@ -42,10 +43,13 @@ export default function DashboardLayout({ user }: { user: DiscordUser }) {
       {/* 유저 헤더 */}
       <div className="flex items-center justify-between mb-8">
         <div className="flex items-center gap-3">
-          <img
+          <Image
             src={getAvatarUrl(user)}
             alt={user.username}
+            width={48}
+            height={48}
             className="w-12 h-12 rounded-full ring-2 ring-brand-pink-soft"
+            unoptimized
           />
           <div>
             <h1 className="font-bold text-brand-text text-lg">
