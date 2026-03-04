@@ -1,16 +1,58 @@
 // 고양이 도감 탭 - 가챠 컬렉션
 'use client'
 
-import { MOCK_USER, GACHA_CATS, GRADE_COLORS } from '@/lib/mock-data'
+import { useState, useEffect } from 'react'
+import { api } from '@/lib/api'
+import { GACHA_CATS, GRADE_COLORS } from '@/lib/mock-data'
+import type { BotUser } from '@/lib/types'
 
 export default function CollectionTab({ userId }: { userId: string }) {
-  // TODO: API에서 실제 데이터 가져오기
-  const collection = MOCK_USER.gachaCollection
-  const collectedCount = Object.keys(collection).length
+  const [collection, setCollection] = useState<Record<string, number> | null>(null)
+  const [loading, setLoading] = useState(true)
+  const [error, setError] = useState<string | null>(null)
+
+  useEffect(() => {
+    let cancelled = false
+    async function load() {
+      setLoading(true)
+      setError(null)
+      const res = await api.getMyProfile()
+      if (cancelled) return
+      if (res.success && res.data) {
+        setCollection((res.data as BotUser).gachaCollection || {})
+      } else {
+        setError(res.error || '데이터를 불러올 수 없습니다.')
+      }
+      setLoading(false)
+    }
+    load()
+    return () => { cancelled = true }
+  }, [userId])
+
+  if (loading) {
+    return (
+      <div className="text-center py-20">
+        <span className="text-4xl block mb-3 animate-bounce">🎴</span>
+        <p className="text-brand-text-sub text-sm">도감을 불러오는 중...</p>
+      </div>
+    )
+  }
+
+  if (error) {
+    return (
+      <div className="text-center py-20">
+        <span className="text-4xl block mb-3">😿</span>
+        <p className="text-brand-text-sub text-sm">{error}</p>
+      </div>
+    )
+  }
+
+  const safeCollection = collection || {}
+  const collectedCount = Object.keys(safeCollection).length
   const totalCount = Object.keys(GACHA_CATS).length
 
   // 도감 점수 계산
-  const totalScore = Object.entries(collection).reduce((sum, [name, count]) => {
+  const totalScore = Object.entries(safeCollection).reduce((sum, [name, count]) => {
     const cat = GACHA_CATS[name]
     if (!cat) return sum
     return sum + cat.score + (count - 1) * 0.1
@@ -42,7 +84,7 @@ export default function CollectionTab({ userId }: { userId: string }) {
       {/* 도감 그리드 */}
       <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-3">
         {Object.entries(GACHA_CATS).map(([name, info]) => {
-          const owned = collection[name] || 0
+          const owned = safeCollection[name] || 0
           const isOwned = owned > 0
 
           return (

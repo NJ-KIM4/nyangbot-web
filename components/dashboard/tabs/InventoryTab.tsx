@@ -1,7 +1,9 @@
 // 인벤토리 탭 - 보유 아이템 목록
 'use client'
 
-import { MOCK_USER } from '@/lib/mock-data'
+import { useState, useEffect } from 'react'
+import { api } from '@/lib/api'
+import type { BotUser } from '@/lib/types'
 
 // 아이템 아이콘 매핑
 const ITEM_ICONS: Record<string, string> = {
@@ -25,11 +27,48 @@ const ITEM_ICONS: Record<string, string> = {
 }
 
 export default function InventoryTab({ userId }: { userId: string }) {
-  // TODO: API에서 실제 데이터 가져오기
-  const inventory = MOCK_USER.inventory
+  const [inventory, setInventory] = useState<Record<string, number> | null>(null)
+  const [loading, setLoading] = useState(true)
+  const [error, setError] = useState<string | null>(null)
+
+  useEffect(() => {
+    let cancelled = false
+    async function load() {
+      setLoading(true)
+      setError(null)
+      const res = await api.getMyProfile()
+      if (cancelled) return
+      if (res.success && res.data) {
+        setInventory((res.data as BotUser).inventory || {})
+      } else {
+        setError(res.error || '데이터를 불러올 수 없습니다.')
+      }
+      setLoading(false)
+    }
+    load()
+    return () => { cancelled = true }
+  }, [userId])
+
+  if (loading) {
+    return (
+      <div className="text-center py-20">
+        <span className="text-4xl block mb-3 animate-bounce">🎒</span>
+        <p className="text-brand-text-sub text-sm">인벤토리를 불러오는 중...</p>
+      </div>
+    )
+  }
+
+  if (error) {
+    return (
+      <div className="text-center py-20">
+        <span className="text-4xl block mb-3">😿</span>
+        <p className="text-brand-text-sub text-sm">{error}</p>
+      </div>
+    )
+  }
 
   // 0개 아이템 제외, 수량 많은 순 정렬
-  const items = Object.entries(inventory)
+  const items = Object.entries(inventory || {})
     .filter(([, count]) => count > 0)
     .sort(([, a], [, b]) => b - a)
 
