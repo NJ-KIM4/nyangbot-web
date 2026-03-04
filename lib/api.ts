@@ -2,8 +2,8 @@
 import { clientAuth } from './auth'
 import type { ApiResponse } from './types'
 
-// 봇 API 베이스 URL (환경변수에서 가져옴)
-const BOT_API_URL = process.env.NEXT_PUBLIC_BOT_API_URL || 'http://localhost:3001/api'
+// 봇 API 베이스 URL — Vercel 프록시 경로 사용 (Mixed Content 방지)
+const BOT_API_URL = '/api/bot'
 
 // 인증 헤더 자동 첨부 fetch 래퍼
 export async function apiFetch<T>(
